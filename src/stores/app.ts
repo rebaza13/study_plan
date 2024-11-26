@@ -67,6 +67,7 @@ export const useAppStore = defineStore('app',()=>{
     try {
       // @ts-ignore
       const response = await signOut(auth)
+      console.log(response)
       alert.message = 'Logged Out'
       alert.type = 'warning'
     } catch(error:any){
