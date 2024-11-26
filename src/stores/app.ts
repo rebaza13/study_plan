@@ -65,6 +65,7 @@ export const useAppStore = defineStore('app',()=>{
   const SOut = async()=>{
     loading.value = !loading.value
     try {
+      // @ts-ignore
       const response = await signOut(auth)
       alert.message = 'Logged Out'
       alert.type = 'warning'
