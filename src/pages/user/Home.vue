@@ -113,6 +113,7 @@ try {
   };
 } finally {
   loading.value = false;
+  console.log(loading.value)
 }
 };
 
