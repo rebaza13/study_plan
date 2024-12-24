@@ -117,24 +117,24 @@ try {
 };
 
   
-  const viewStudyPlan = () => {
-    // Navigate to view study plan page
-    router.push("/study-plan");
-  };
+  // const viewStudyPlan = () => {
+  //   // Navigate to view study plan page
+  //   router.push("/study-plan");
+  // };
   
-  const addCourse = () => {
-    // Navigate to add course page
-    router.push("/add-course");
-  };
+  // const addCourse = () => {
+  //   // Navigate to add course page
+  //   router.push("/add-course");
+  // };
   
-  const removeCourse = () => {
-    // Navigate to remove course page
-    router.push("/remove-course");
-  };
+  // const removeCourse = () => {
+  //   // Navigate to remove course page
+  //   router.push("/remove-course");
+  // };
   
-  const viewCompletedCourses = () => {
-    // Navigate to view completed courses page
-    router.push("/completed-courses");
-  };
+  // const viewCompletedCourses = () => {
+  //   // Navigate to view completed courses page
+  //   router.push("/completed-courses");
+  // };
   </script>
   
