@@ -5,7 +5,7 @@ import { ref } from 'vue';
 import { getCollection, setDocumentRandomId } from '@/utils/helpers';
 import { AlertsType } from '@/types';
 export const useCourseStore = defineStore('course', () => {
-
+  const selectedCourseId = ref()
   const courses = ref()
   const alert = reactive({
     message:'',
@@ -34,6 +34,7 @@ export const useCourseStore = defineStore('course', () => {
     alert,
     resetAlert,
     courses,
-    getCourses
+    getCourses,
+    selectedCourseId
   };
 });

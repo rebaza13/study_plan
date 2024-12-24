@@ -29,14 +29,16 @@
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn 
-                
+                 class="ma-2"
               icon
               color="primary"
               @click="editCourse(item)"
             >
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
+          
             <v-btn
+            class="ma-2"
               icon
               color="red"
               @click="deleteCourse(item)"
@@ -56,7 +58,7 @@
   import { ref, onMounted } from "vue";
   import { useCourseStore } from "@/stores/courseStore"; // Replace with your store path
   import { useRouter } from "vue-router";
-
+  import {deleteItems} from "@/utils/helpers"
   const router =useRouter()
   // Define table headers
   const headers = [
@@ -75,14 +77,15 @@
   
   // Edit course
   const editCourse = (course) => {
-    console.log("Edit course:", course.id); // Replace with navigation logic
+    courseStore.selectedCourseId = course.documentId
+    router.push('/Course/EditCourse')
     // Example: this.$router.push(`/edit-course/${course.id}`);
   };
   
   // Delete course
-  const deleteCourse = (course) => {
-    if (confirm(`Are you sure you want to delete the course "${course.name}"?`)) {
-      courseStore.deleteCourse(course.id); // Assuming `deleteCourse(id)` removes the course
+  const deleteCourse = async (course) => {
+    if (confirm(`Are you sure you want to delete the course "${course.title}"?`)) {
+      await deleteItems('courses',course.documentId); // Assuming `deleteCourse(id)` removes the course
       loadCourses();
     }
   };

@@ -1,47 +1,86 @@
 <template>
-  <Alert :alert="courseStore.alert" @close-alert="()=>courseStore.resetAlert()" class=" alert"></Alert>
+  <div>
+    <!-- Alert -->
+    <Alert :alert="courseStore.alert" @close-alert="()=>courseStore.resetAlert()" class="alert"></Alert>
 
-  <v-container class="" style="height: 100vh;">
-    <v-app-bar scroll-behavior="fade-image" color="red-accent-1">
-      <v-app-bar-title class="text-white">Add Course</v-app-bar-title>
+    <!-- App Bar -->
+    <v-app-bar color="red-accent-1">
       <template #prepend>
-        <v-icon @click.prevent="router.go(-1)" icon="mdi-arrow-left" color="white"></v-icon>
+        <v-icon @click.prevent="router.go(-1)">mdi-arrow-left</v-icon>
       </template>
-      <!-- <template #image>
-        <img style="object-fit: cover; width: 100%;" src="https://png.pngtree.com/thumb_back/fh260/background/20210401/pngtree-abstract-asymmetry-simple-education-planners-image_602257.jpg" alt="">
-      </template> -->
+      <v-app-bar-title class="text-white">Add Course</v-app-bar-title>
     </v-app-bar>
 
-    <v-form @submit.prevent="handleSubmit" ref="form">
-      <v-text-field v-model="course.title" clearable label="Title" variant="solo-filled"></v-text-field>
-      <v-text-field v-model="course.image" clearable label="Image url" variant="solo-filled"></v-text-field>
-      <v-text-field v-model="course.description" clearable label="Description" variant="solo-filled"></v-text-field>
-      <v-text-field v-model="course.requiredCredits" clearable label="Minimum Credit" variant="solo-filled"></v-text-field>
+    <!-- Content -->
+    <v-container class="py-4" style="height: 100vh;">
+      <v-form @submit.prevent="handleSubmit" ref="form">
+        <v-text-field
+          label="Title"
+          v-model="course.title"
+          :rules="[v => !!v || 'Title is required']"
+          required
+        ></v-text-field>
 
-      <v-btn @click="addChapter" type="button" color="red-lighten-2" variant="text">Add more chapter</v-btn>
-      
-      <v-list v-for="(chapter, index) in course.chapters" :key="index">
-        <v-list-item>
-          <v-text-field
-            variant="solo-filled"
-            v-model="chapter.title"
-            label="Chapter Title"
-            required
-          />
-          <v-textarea
-            variant="solo-filled"
-            v-model="chapter.description"
-            label="Chapter Description"
-            rows="3"
-            required
-          />
-        </v-list-item>
-      </v-list>
+        <v-text-field
+          label="Image URL"
+          v-model="course.image"
+          clearable
+        ></v-text-field>
 
-      <v-btn type="submit" :disabled="!formIsValid" class="w-100 mb-8" color="red-accent-2">Submit</v-btn>
-    </v-form>
-  </v-container>
+        <v-text-field
+          label="Description"
+          v-model="course.description"
+          clearable
+          :rules="[v => !!v || 'Description is required']"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          label="Minimum Credit"
+          v-model="course.requiredCredits"
+          clearable
+        ></v-text-field>
+
+        <v-text-field
+          label="Credit"
+          v-model="course.credit"
+          clearable
+        ></v-text-field>
+
+        <v-btn @click="addChapter" type="button" color="red-lighten-2" variant="text">
+          Add More Chapter
+        </v-btn>
+
+        <div>
+          <h3>Chapters</h3>
+          <v-row v-for="(chapter, index) in course.chapters" :key="index" class="mb-4">
+            <v-col cols="12">
+              <v-text-field
+                label="Chapter Title"
+                v-model="chapter.title"
+                variant="solo-filled"
+                :rules="[v => !!v || 'Chapter title is required']"
+                required
+              ></v-text-field>
+              <v-textarea
+                label="Chapter Description"
+                v-model="chapter.description"
+                rows="3"
+                :rules="[v => !!v || 'Chapter description is required']"
+                required
+              ></v-textarea>
+            </v-col>
+          </v-row>
+        </div>
+
+        <v-btn type="submit" :disabled="!formIsValid" class="w-100" color="red-accent-2">
+          Submit
+        </v-btn>
+      </v-form>
+    </v-container>
+  </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
@@ -54,6 +93,7 @@ const courseStore = useCourseStore();
 // Define course data
 const course = ref({
   title: '',
+  credit:0,
   image: null,
   description: '',
   chapters: [{ title: '', description: '' }],
@@ -98,6 +138,7 @@ const handleSubmit = async () => {
     // Reset form after successful submission
     course.value = {
       title: '',
+      credit:0,
       image: null,
       description: '',
       chapters: [{ title: '', description: '' }],

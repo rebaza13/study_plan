@@ -1,6 +1,6 @@
 <template>
-  <div class="h-100 pt-10" width="100%"  style="background-color: #f0f0f0;">
-    <v-app-bar>
+    <v-app>
+        <v-app-bar>
       <template #prepend>
         <!-- Avatar Image -->
         <v-avatar size="40">
@@ -18,134 +18,123 @@
         <v-btn @click.prevent="handleLogout" flat small color="red-accent-2">LogOut</v-btn>
       </template>
     </v-app-bar>
-    <v-row justify="center">
-      <v-col cols="5">
-        <v-card class="d-flex flex-column position-reative" height="220px">
-          
-          
-          <template #append>
-            <v-icon icon="mdi-plus" color="white" class="mt-atuo" style="z-index: 10;"></v-icon>
-          </template>
-          <img
-            class="position-absolute top-0 left-0"
-            src="https://png.pngtree.com/thumb_back/fh260/background/20210401/pngtree-abstract-asymmetry-simple-education-planners-image_602257.jpg"
-            alt=""
-            style="width: 100%; height: 185px; object-fit: cover"
-          />
-
-          <v-btn @click.prevent="router.push('/Course/addCourse')"  variant="text" :flat="true"  color="red-accent-2" location="bottom" class="mt-auto">Add Course</v-btn>
-        </v-card>
-      </v-col>
-      <v-col cols="5">
-        <v-card class="d-flex flex-column position-reative" height="220px">
-          
-          
-          <template #append>
-            <v-icon icon="mdi-cog" color="white" class="mt-atuo" style="z-index: 10;"></v-icon>
-          </template>
-          <img
-            class="position-absolute top-0 left-0"
-            src="https://media.istockphoto.com/id/1349326623/vector/abstract-techno-gear-background-with-geometric-colorful-gear-wheels.jpg?s=612x612&w=0&k=20&c=_SBicaocejcitl4j7-TaIyLmHwihyyM-qqVnIynyN6s="
-            alt=""
-            style="width: 100%; height: 185px; object-fit: cover"
-          />
-
-          <v-btn @click.prevent="router.push('/Course/ManageCourse')"  variant="text" :flat="true"  color="red-accent-2" location="bottom" class="mt-auto">Manage Courses</v-btn>
-        </v-card>
-    
-      </v-col>
-
-    </v-row>
-    <v-row justify="center">
-      <v-col cols="5">
-        <v-card class="d-flex mt-4 flex-column position-reative" height="220px">
-          
-          
-          <template #append>
-            <v-icon icon="mdi-cog" color="white" class="mt-atuo" style="z-index: 10;"></v-icon>
-          </template>
-          <img
-            class="position-absolute top-0 left-0"
-            src="https://media.istockphoto.com/id/1349326623/vector/abstract-techno-gear-background-with-geometric-colorful-gear-wheels.jpg?s=612x612&w=0&k=20&c=_SBicaocejcitl4j7-TaIyLmHwihyyM-qqVnIynyN6s="
-            alt=""
-            style="width: 100%; height: 185px; object-fit: cover"
-          />
-
-          <v-btn @click.prevent="router.push('/Course/RecomendedCourse')"  variant="text" :flat="true"  color="red-accent-2" location="bottom" class="mt-auto">Recomend Courses</v-btn>
-        </v-card>
-       
-      </v-col>
-      <v-col cols="5">
-        <v-card class="d-flex mt-4 flex-column position-reative" height="220px">
-          
-          
-          <template #append>
-            <v-icon icon="mdi-cog" color="white" class="mt-atuo" style="z-index: 10;"></v-icon>
-          </template>
-          <img
-            class="position-absolute top-0 left-0"
-            src="https://img.freepik.com/premium-vector/abstract-background-with-waves-vector-illustration_648489-99.jpg"
-            alt=""
-            style="width: 100%; height: 185px; object-fit: cover"
-          />
-
-          <v-btn @click.prevent="router.push('/Course/AddRules')"  variant="text" :flat="true"  color="red-accent-2" location="bottom" class="mt-auto">Add rules</v-btn>
-        </v-card>
-      </v-col>
-    </v-row>
-  </div>
-</template>
-
-<script lang="ts" setup>
-//
-import { auth } from "@/plugins/firebase";
-import { useAppStore } from "@/stores/app";
-import { signOut } from "firebase/auth/cordova";
-import { useRouter } from "vue-router";
-const appStore = useAppStore();
-const router = useRouter();
-
-onBeforeMount(()=>{
-  if (appStore.user?.photoURL === 'user') {
   
-    router.replace('/user/Home'); // Redirect to user-specific home route
-  } else {
+      <v-main>
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12" sm="6" md="4">
+              <v-card class="mx-auto" elevation="3">
+                <v-card-text class="text-center">
+                  <v-icon large>mdi-book-open-variant</v-icon>
+                  <h3 class="font-weight-bold">View My Study Plan</h3>
+                  <p>Access and review your current study plan.</p>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" to="/user/ViewStudyPlaner">View Plan</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+  
+            <v-col cols="12" sm="6" md="4">
+              <v-card class="mx-auto" elevation="3">
+                <v-card-text class="text-center">
+                  <v-icon large>mdi-plus</v-icon>
+                  <h3 class="font-weight-bold">Add Course to the Plan</h3>
+                  <p>Add new courses to your study schedule.</p>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" to="/user/AddCourse" >Add Course</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+  
+            <v-col cols="12" sm="6" md="4">
+              <v-card class="mx-auto" elevation="3">
+                <v-card-text class="text-center">
+                  <v-icon large>mdi-delete</v-icon>
+                  <h3 class="font-weight-bold">Remove Course</h3>
+                  <p>Remove courses that are no longer relevant.</p>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" >Remove Course</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+  
+            <v-col cols="12" sm="6" md="4">
+              <v-card class="mx-auto" elevation="3">
+                <v-card-text class="text-center">
+                  <v-icon large>mdi-check</v-icon>
+                  <h3 class="font-weight-bold">Completed Courses</h3>
+                  <p>View a list of your successfully completed courses.</p>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" to="/user/CompletedCourse" >View Courses</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+    </v-app>
+  </template>
+  
+  
+  <script lang="ts" setup>
+  import { useAppStore } from "@/stores/app";
+  import { useRouter } from "vue-router";
+  const router = useRouter();
+  import { auth } from "@/plugins/firebase";
 
-    router.replace('/Home'); // Redirect to general home route
-  }
-})
-const loading = ref(false);
+import { signOut } from "firebase/auth/cordova";
+
+  const appStore = useAppStore();
+  const loading = ref(false);
 const alert = ref({ message: "", type: "" });
 
-const handleLogout = async () => {
+  const handleLogout = async () => {
 
-  loading.value = true;
+loading.value = true;
 
-  try {
-    await signOut(auth); // Logs out the user
-    alert.value = {
-      message: "Logged out successfully!",
-      type: "success",
-    };
+try {
+  await signOut(auth); // Logs out the user
+  alert.value = {
+    message: "Logged out successfully!",
+    type: "success",
+  };
 
-    // Redirect to the homepage
-    router.push("/");
-  } catch (error) {
-    console.error("Logout Error:", error);
-    alert.value = {
-      message: "Failed to log out. Please try again.",
-      type: "error",
-    };
-  } finally {
-    loading.value = false;
-  }
+  // Redirect to the homepage
+  router.push("/");
+} catch (error) {
+  console.error("Logout Error:", error);
+  alert.value = {
+    message: "Failed to log out. Please try again.",
+    type: "error",
+  };
+} finally {
+  loading.value = false;
+}
 };
 
-
-
-</script>
-<style>
-.index {
-  z-index: 10;
-}
-</style>
+  
+  const viewStudyPlan = () => {
+    // Navigate to view study plan page
+    router.push("/study-plan");
+  };
+  
+  const addCourse = () => {
+    // Navigate to add course page
+    router.push("/add-course");
+  };
+  
+  const removeCourse = () => {
+    // Navigate to remove course page
+    router.push("/remove-course");
+  };
+  
+  const viewCompletedCourses = () => {
+    // Navigate to view completed courses page
+    router.push("/completed-courses");
+  };
+  </script>
+  

@@ -4,8 +4,13 @@ import {auth, db} from "@/plugins/firebase"
 import { createUserWithEmailAndPassword,onAuthStateChanged,signInWithEmailAndPassword,signOut,User  } from 'firebase/auth/cordova'
 import { AlertsType } from '@/types'
 import { doc, setDoc } from 'firebase/firestore'
+import { updateProfile } from "firebase/auth";
+
+
+
 export const useAppStore = defineStore('app',()=>{
-  const user = ref<User | null>(null)
+  // @ts-ignore
+  const user = ref<User |any >(JSON.parse(localStorage.getItem('userQ')))
   const loading = ref(false)
   const alert = reactive({
     message:'',
@@ -17,6 +22,8 @@ export const useAppStore = defineStore('app',()=>{
   onAuthStateChanged(auth, (currentUser: User | null) => {
     if (currentUser) {
       user.value = currentUser // Set user if there is an existing session
+  
+
     } else {
       user.value = null // Clear user if not logged in
     }
@@ -28,12 +35,28 @@ export const useAppStore = defineStore('app',()=>{
       // Register the user with Firebase Authentication
       const response = await createUserWithEmailAndPassword(auth, email, password);
       user.value = response?.user;
-  
+     await updateProfile(user.value, {
+    
+        photoURL: "user"
+      }).then((a) => {
+        console.log(a)
+        
+        // Profile updated!
+        // ...
+      }).catch((error) => {
+        console.log(error)
+        // An error occurred
+        // ...
+      });
+  // Stringifying the `user.value` object and storing it
+localStorage.setItem('userQ', JSON.stringify(user.value));
+
       // Save user data to Firestore with their UID
       const userRef = doc(db, "users", user.value.uid); // 'users' is your Firestore collection
       await setDoc(userRef, {
         uid: user.value.uid,
         email: user.value.email,
+        role:'user',
         createdAt: new Date().toISOString(),
       });
   

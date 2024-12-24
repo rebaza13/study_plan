@@ -20,8 +20,15 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/Course/addCourse': RouteRecordInfo<'/Course/addCourse', '/Course/addCourse', Record<never, never>, Record<never, never>>,
+    '/Course/AddRules': RouteRecordInfo<'/Course/AddRules', '/Course/AddRules', Record<never, never>, Record<never, never>>,
+    '/Course/EditCourse': RouteRecordInfo<'/Course/EditCourse', '/Course/EditCourse', Record<never, never>, Record<never, never>>,
     '/Course/ManageCourse': RouteRecordInfo<'/Course/ManageCourse', '/Course/ManageCourse', Record<never, never>, Record<never, never>>,
+    '/Course/RecomendedCourse': RouteRecordInfo<'/Course/RecomendedCourse', '/Course/RecomendedCourse', Record<never, never>, Record<never, never>>,
     '/Home': RouteRecordInfo<'/Home', '/Home', Record<never, never>, Record<never, never>>,
     '/Register': RouteRecordInfo<'/Register', '/Register', Record<never, never>, Record<never, never>>,
+    '/user/AddCourse': RouteRecordInfo<'/user/AddCourse', '/user/AddCourse', Record<never, never>, Record<never, never>>,
+    '/user/CompletedCourse': RouteRecordInfo<'/user/CompletedCourse', '/user/CompletedCourse', Record<never, never>, Record<never, never>>,
+    '/user/Home': RouteRecordInfo<'/user/Home', '/user/Home', Record<never, never>, Record<never, never>>,
+    '/user/ViewStudyPlaner': RouteRecordInfo<'/user/ViewStudyPlaner', '/user/ViewStudyPlaner', Record<never, never>, Record<never, never>>,
   }
 }
