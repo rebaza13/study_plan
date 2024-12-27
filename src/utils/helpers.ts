@@ -7,6 +7,8 @@ import { User } from '@/type/types'
 import { app } from '@/plugins/firebase'
 
 
+import { doc, getDoc } from "firebase/firestore";
+
 export const getCollection = async (collectionName: string): Promise<any[]> => {
   const collectionRef = collection(db, collectionName);
   const snapshot = await getDocs(collectionRef);
@@ -69,8 +71,15 @@ export const uploadImage = async (image: File) => {
 
 export const deleteItems = async (collectionName: string, itemId: string) => {
   try {
-    await deleteDoc(doc(db, collectionName, itemId));
-    console.log(`Item with ID ${itemId} deleted from ${collectionName} collection`);
+    const docRef = doc(db, collectionName, itemId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      await deleteDoc(docRef);
+      console.log(`Item with ID ${itemId} deleted from ${collectionName} collection`);
+    } else {
+      console.log(`No such document with ID ${itemId} in ${collectionName} collection`);
+    }
   } catch (error: any) {
     console.error(`Error deleting item from ${collectionName} collection:`, error.message);
   }

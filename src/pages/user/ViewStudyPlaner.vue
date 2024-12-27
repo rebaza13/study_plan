@@ -105,7 +105,9 @@ const showAddCourse = () => {
 };
 
 const viewCourseDetails = (course) => {
-  console.log(`Viewing details for: ${course.title}`);
+  console.log(course)
+  localStorage.setItem('courseObj', JSON.stringify(course));
+  router.push('/user/CourseDetail')
 };
 
 const handleLogout = () => {

@@ -78,6 +78,9 @@
   // Edit course
   const editCourse = (course) => {
     courseStore.selectedCourseId = course.documentId
+    let courseId = course.documentId
+    localStorage.setItem('courseIdStore',courseId);
+
     router.push('/Course/EditCourse')
     // Example: this.$router.push(`/edit-course/${course.id}`);
   };

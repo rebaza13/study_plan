@@ -5,7 +5,10 @@ import { ref } from 'vue';
 import { getCollection, setDocumentRandomId } from '@/utils/helpers';
 import { AlertsType } from '@/types';
 export const useCourseStore = defineStore('course', () => {
-  const selectedCourseId = ref()
+  // @ts-ignore
+
+  const selectedCourseId =ref(localStorage.getItem('courseIdStore'))
+  const selectedCourse= ref()
   const courses = ref()
   const alert = reactive({
     message:'',
@@ -35,6 +38,7 @@ export const useCourseStore = defineStore('course', () => {
     resetAlert,
     courses,
     getCourses,
+    selectedCourse,
     selectedCourseId
   };
 });

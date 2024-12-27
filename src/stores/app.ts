@@ -11,7 +11,10 @@ import { updateProfile } from "firebase/auth";
 export const useAppStore = defineStore('app',()=>{
   // @ts-ignore
   const user = ref<User |any >(JSON.parse(localStorage.getItem('userQ')))
+   // @ts-ignore
+   const courseObj = JSON.parse(localStorage.getItem('courseObj'));
   const loading = ref(false)
+  const isUser =ref(false)
   const alert = reactive({
     message:'',
     type: 'success' as AlertsType,
@@ -29,17 +32,18 @@ export const useAppStore = defineStore('app',()=>{
     }
   })
 
-  const register = async (email: string, password: string) => {
+  const register = async (email: string, password: string,name:string,totalCredit:string) => {
     loading.value = true;
     try {
       // Register the user with Firebase Authentication
       const response = await createUserWithEmailAndPassword(auth, email, password);
       user.value = response?.user;
+      isUser.value =!isUser.value
      await updateProfile(user.value, {
-    
+        displayName:name,
         photoURL: "user"
       }).then((a) => {
-        console.log(a)
+
         
         // Profile updated!
         // ...
@@ -55,6 +59,8 @@ localStorage.setItem('userQ', JSON.stringify(user.value));
       const userRef = doc(db, "users", user.value.uid); // 'users' is your Firestore collection
       await setDoc(userRef, {
         uid: user.value.uid,
+        name:name,
+        totalCredit:totalCredit,
         email: user.value.email,
         role:'user',
         createdAt: new Date().toISOString(),
@@ -118,5 +124,5 @@ const getFirebaseErrorMessage = (errorCode: string): string => {
 }
 
 
-  return {register,loading,user,resetAlert,alert,signIn,SOut}
+  return {register,isUser,courseObj,loading,user,resetAlert,alert,signIn,SOut}
 })

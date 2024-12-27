@@ -44,9 +44,12 @@
             Add Course to Schedule
           </v-card-title>
           <v-card-text>
-            <p><strong>Course Name:</strong> {{ selectedCourse.title }}</p>
-            <p><strong>Course ID:</strong> {{ selectedCourse.courseId }}</p>
+            <p class="ml-1"><strong>Course Name:</strong> {{ selectedCourse.title }}</p>
+            <!-- <p><strong>Course ID:</strong> {{ selectedCourse.courseId }}</p> -->
+           <v-row align="center" justify="space-between" class="mt-5 ml-1">
             <p><strong>Credit Required:</strong> {{ selectedCourse.requiredCredits }}</p>
+            <p class="ml-6 mr-6 " color="" style="color: red;">your Total Credit is: {{ userTotalCredit }}</p>
+           </v-row>
             <!-- <p><strong>Image:</strong> {{ selectedCourse.img }}</p> -->
             <!-- <p><strong>Completed:</strong> {{ selectedCourse.isCompleted }}</p> -->
           </v-card-text>
@@ -58,7 +61,7 @@
               
             </v-card-text>
           <v-card-actions>
-            <v-btn color="green" @click="confirmAddToSchedule">Confirm</v-btn>
+            <v-btn :disabled="userTotalCredit < selectedCourse.requiredCredits" color="green" @click="confirmAddToSchedule">Confirm</v-btn>
             <v-btn color="red" @click="closeDialog">Cancel</v-btn>
           </v-card-actions>
         </v-card>
@@ -71,7 +74,7 @@
 import { ref, computed } from 'vue';
 import { useCourseStore } from '@/stores/courseStore'; // Replace with your store path
 import { useRouter } from 'vue-router';
-import { updateDocument, setDocumentRandomId } from '@/utils/helpers';
+import { updateDocument, setDocumentRandomId, getCollection } from '@/utils/helpers';
 import { useAppStore } from '@/stores/app';
 
 const appStore = useAppStore()
@@ -81,6 +84,9 @@ const selectedCourseId = ref();
 const selectedCourseName = ref(null);
 const showDialog = ref(false);
 const selectedCourse = ref()
+
+const userId = ref()
+const userTotalCredit = ref()
 const img = ref()
 // Define table headers
 const headers = [
@@ -94,12 +100,33 @@ const headers = [
 const courses = computed(() => courseStore.courses);
 
 // Add to Schedule function
-const addToSchedule = (course) => {
-  selectedCourse.value = {...course}
+const addToSchedule = async (course) => {
+  const response =  await checkIfhaveCourse()
+  console.log(response)
+  
+  if(response.length !==0){
+    response.forEach((obj)=>{
+      if(obj.courseId !== course.documentId){
+        selectedCourse.value = {...course}
   selectedCourseId.value = course.documentId;
   selectedCourseName.value = course.title; // Clone the course to avoid direct mutations
   showDialog.value = true;
   img.value = course.image
+      } else if(obj.courseId === course.documentId){
+        alert('you cant add the course twice')
+        showDialog.value = false;
+      }
+    })
+  } else {
+   
+        selectedCourse.value = {...course}
+  selectedCourseId.value = course.documentId;
+  selectedCourseName.value = course.title; // Clone the course to avoid direct mutations
+  showDialog.value = true;
+  img.value = course.image
+      
+  }
+ 
 };
 
 // Confirm adding to schedule
@@ -124,8 +151,18 @@ const confirmAddToSchedule = async () => {
 const closeDialog = () => {
   showDialog.value = false;
 };
-
-onMounted(() => {
+const checkIfhaveCourse = ()=>{
+  const respones  = getCollection('studyPlan')
+return respones
+}
+onMounted(async () => {
   courseStore.getCourses();
+  const response  = await getCollection('users')
+  response.filter((obj)=>{
+if(    obj.uid === appStore?.user?.uid){
+  userId.value =obj.uid
+  userTotalCredit.value = obj.totalCredit
+}
+  })
 });
 </script>

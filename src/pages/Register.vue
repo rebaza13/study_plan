@@ -31,6 +31,24 @@
             clearable
             label="Email"
             :rules="emailRule"
+            prepend-icon="mdi-email"
+            variant="outlined"
+            class="mb-4"
+          ></v-text-field>
+          <v-text-field
+            v-model="name"
+            clearable
+            label="Your name"
+          
+            prepend-icon="mdi-account"
+            variant="outlined"
+            class="mb-4"
+          ></v-text-field>
+          <v-text-field
+            v-model="totalCredit"
+            clearable
+            label="your Current Credit"
+           
             prepend-icon="mdi-account"
             variant="outlined"
             class="mb-4"
@@ -102,6 +120,8 @@
   const confirmPassword = ref("");
   const router = useRouter()
   const appStore = useAppStore()
+  const name =ref()
+  const totalCredit = ref()
   // Rules for validation
   const emailRule = [
     (value: string) => !!value || "You must enter your email address",
@@ -122,7 +142,7 @@
     console.log(valid, "d");
     if (valid.valid) {
   
-      appStore.register(email.value,password.value)
+      appStore.register(email.value,password.value,name.value,totalCredit.value)
     } else {
   
     }
@@ -131,7 +151,7 @@
   
   watch(()=>appStore.user,(val)=>{
     if(val && val !=null){
-      router.push('/Home')
+      router.push('/user/Home')
     }
   })
   </script>

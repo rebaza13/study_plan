@@ -5,10 +5,10 @@
     <!-- Left Side: Image -->
     <div
       class="d-md-flex d-none align-center flex-column justify-center bg_login"
-      style="width: 50%"
+      style="width:50%"
     >
       <div class="img_bg">
-        <img src="/images/logn_img.png" alt="Image" class="img" />
+        <img src="/images/logn_img.png" alt="Image" class="img" style="width: 80%;" />
       </div>
       <h3 style="color: white" class="text-h4 mt-4">My Study Planner</h3>
     </div>
@@ -116,7 +116,9 @@ const submit = async () => {
 // watcher
 
 watch(()=>appStore.user,(val)=>{
-  if(val && val !=null){
+  if(appStore.user?.photoURL=='user'){
+    router.push('/user/Home')
+  } else {
     router.push('/Home')
   }
 })

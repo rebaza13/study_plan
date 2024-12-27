@@ -4,11 +4,11 @@
     <Alert :alert="courseStore.alert" @close-alert="()=>courseStore.resetAlert()" class="alert"></Alert>
 
     <!-- App Bar -->
-    <v-app-bar color="red-accent-1">
+    <v-app-bar color="red-accent-2">
       <template #prepend>
-        <v-icon @click.prevent="router.go(-1)">mdi-arrow-left</v-icon>
+        <v-icon @click="router.go(-1)">mdi-arrow-left</v-icon>
       </template>
-      <v-app-bar-title class="text-white">Add Course</v-app-bar-title>
+      <v-app-bar-title>Add Course to the system</v-app-bar-title>
     </v-app-bar>
 
     <!-- Content -->
@@ -124,6 +124,7 @@ const addChapter = () => {
 // Handle the form submission (push data to Firebase)
 const handleSubmit = async () => {
   const courseData = {
+    credit:course.value.credit,
     title: course.value.title,
     image: course.value.image,
     description: course.value.description,
